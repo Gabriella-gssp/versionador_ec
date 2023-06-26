@@ -28,5 +28,8 @@ void criarDiretorios();
 #include <dirent.h>
 
 void criarDiretorios();
+void criar_fila();
+void enfileirar(Fila* fila, const char* arquivo);
+char* desenfileirar(Fila* fila);
 
 #endif 
