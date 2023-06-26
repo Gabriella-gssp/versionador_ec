@@ -23,7 +23,6 @@ typedef struct {
 
 void criarDiretorios();
 
-#endif 
 
 #include <stdio.h>
 #include <stdlib.h>
