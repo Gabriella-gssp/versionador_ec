@@ -37,5 +37,7 @@ void enfileirar(Fila* fila, const char* arquivo);
 char* desenfileirar(Fila* fila);
 void adicionar_arquivo(const char* arquivo);
 void criarSnapshot(Fila* arquivosMarcados);
+void listarSnapshots(int exibirConteudo);
+
 
 #endif 
