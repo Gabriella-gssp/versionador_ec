@@ -99,3 +99,46 @@ void adicionar_arquivo(const char* arquivo) {
 
     fclose(arquivoVersaoNovo);
 }
+
+void criarSnapshot(Fila* arquivosMarcados) {
+    if (arquivosMarcados->inicio == NULL) {
+        printf("Nenhum arquivo marcado para snapshot.\n");
+        return;
+    }
+
+    char arquivo[256];
+    snprintf(arquivo, sizeof(arquivo), ".versionador/versoes/%d", proximoIdentificador);
+
+    FILE* arquivoSnapshot = fopen(arquivo, "w");
+    if (arquivoSnapshot == NULL) {
+        printf("Erro ao criar o arquivo de snapshot.\n");
+        return;
+    }
+
+    fprintf(arquivoSnapshot, "%d\n", proximoIdentificador);
+
+    Node* arquivoAtual = arquivosMarcados->inicio;
+    while (arquivoAtual != NULL) {
+        fprintf(arquivoSnapshot, "%s\n", arquivoAtual->arquivo);
+        arquivoAtual = arquivoAtual->prox;
+    }
+
+    fclose(arquivoSnapshot);
+
+    printf("Snapshot %d criado com sucesso.\n", proximoIdentificador);
+
+    Snapshot* novoSnapshot = (Snapshot*)malloc(sizeof(Snapshot));
+    novoSnapshot->identificador = proximoIdentificador;
+    novoSnapshot->arquivos = arquivosMarcados;
+    novoSnapshot->prox = NULL;
+
+    if (inicioSnapshot == NULL) {
+        inicioSnapshot = novoSnapshot;
+        fimSnapshot = novoSnapshot;
+    } else {
+        fimSnapshot->prox = novoSnapshot;
+        fimSnapshot = novoSnapshot;
+    }
+
+    proximoIdentificador++;
+}
