@@ -4,6 +4,13 @@
 #include <dirent.h>
 #include "versionador.h"
 
+Fila* criarFila() {
+    Fila* fila = (Fila*)malloc(sizeof(Fila));
+    fila->inicio = NULL;
+    fila->fim = NULL;
+    return fila;
+}
+
 void iniciar() {
     struct stat st;
 
