@@ -1,6 +1,10 @@
 #ifndef VERSIONADOR_H_
 #define VERSIONADOR_H_
 
+Snapshot* inicioSnapshot = NULL;
+Snapshot* fimSnapshot = NULL;
+int proximoIdentificador = 1;
+
 typedef struct{
     char arquivo[256];
     struct Node* prox;
