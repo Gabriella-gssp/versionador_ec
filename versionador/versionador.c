@@ -273,3 +273,49 @@ void mudarSnapshot(int identificador) {
         arquivoAtual = arquivoAtual->prox;
     }
 }
+
+void mudarAtual() {
+    Snapshot* snapshotAtual = inicioSnapshot;
+
+    while (snapshotAtual != NULL) {
+        if (snapshotAtual->identificador == proximoIdentificador - 1) {
+            break;
+        }
+
+        snapshotAtual = snapshotAtual->prox;
+    }
+
+    if (snapshotAtual == NULL) {
+        printf("Snapshot %d não encontrado.\n", proximoIdentificador - 1);
+        return;
+    }
+
+    printf("Snapshot %d:\n", snapshotAtual->identificador);
+
+    Fila* arquivos = snapshotAtual->arquivos;
+    Node* arquivoAtual = arquivos->inicio;
+
+    while (arquivoAtual != NULL) {
+        char arquivo[256];
+        snprintf(arquivo, sizeof(arquivo), ".versionador/versoes/%s", arquivoAtual->arquivo);
+
+        FILE* arquivoSnapshot = fopen(arquivo, "r");
+        if (arquivoSnapshot == NULL) {
+            printf("Erro ao abrir o arquivo %s.\n", arquivoAtual->arquivo);
+            arquivoAtual = arquivoAtual->prox;
+            continue;
+        }
+
+        printf("Conteúdo do arquivo %s:\n", arquivoAtual->arquivo);
+
+        char linha[256];
+        while (fgets(linha, sizeof(linha), arquivoSnapshot) != NULL) {
+            printf("%s", linha);
+        }
+
+        printf("\n");
+
+        fclose(arquivoSnapshot);
+        arquivoAtual = arquivoAtual->prox;
+    }
+}
