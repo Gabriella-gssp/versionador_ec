@@ -25,6 +25,18 @@ void enfileirar(Fila* fila, const char* arquivo) {
     }
 }
 
+char* desenfileirar(Fila* fila) {
+    if (fila->inicio == NULL) {
+        return NULL;
+    }
+
+    Node* noRemovido = fila->inicio;
+    fila->inicio = fila->inicio->prox;
+    char* arquivo = strdup(noRemovido->arquivo);
+    free(noRemovido);
+    return arquivo;
+}
+
 void iniciar() {
     struct stat st;
 
