@@ -11,6 +11,20 @@ Fila* criarFila() {
     return fila;
 }
 
+void enfileirar(Fila* fila, const char* arquivo) {
+    Node* novoNo = (Node*)malloc(sizeof(Node));
+    strcpy(novoNo->arquivo, arquivo);
+    novoNo->prox = NULL;
+
+    if (fila->inicio == NULL) {
+        fila->inicio = novoNo;
+        fila->fim = novoNo;
+    } else {
+        fila->fim->prox = novoNo;
+        fila->fim = novoNo;
+    }
+}
+
 void iniciar() {
     struct stat st;
 
