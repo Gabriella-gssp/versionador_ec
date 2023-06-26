@@ -40,6 +40,7 @@ void criarSnapshot(Fila* arquivosMarcados);
 void listarSnapshots(int exibirConteudo);
 void mostrarSnapshot(int identificador);
 void mudarSnapshot(int identificador);
+void mudarAtual();
 
 
 #endif 
