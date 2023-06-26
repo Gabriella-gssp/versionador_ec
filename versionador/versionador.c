@@ -4,43 +4,26 @@
 #include <dirent.h>
 #include "versionador.h"
 
-void criarDiretorios() {
-    // Verifica se o diretório ".versionador" existe
-    DIR* dir = opendir(".versionador");
-    if (dir != NULL) {
-        closedir(dir); // Fecha o diretório se ele existe
-    } else {
-        // Se o diretório não existe, cria-o
-        if (mkdir(".versionador", 0777) != 0) {
-            // Se ocorrer um erro ao criar o diretório, exibe uma mensagem de erro e encerra o programa
-            printf("Erro ao criar o diretório .versionador.\n");
-            exit(1);
-        }
+void iniciar() {
+    struct stat st;
+
+    // Verificar se o diretório .versionador já existe
+    if (stat(".versionador", &st) == 0 && S_ISDIR(st.st_mode)) {
+        return;  // O diretório já existe, não é necessário criar novamente
     }
 
-    // Verifica se o diretório ".versionador/versoes" existe
-    dir = opendir(".versionador/versoes");
-    if (dir != NULL) {
-        closedir(dir); // Fecha o diretório se ele existe
-    } else {
-        // Se o diretório não existe, cria-o
-        if (mkdir(".versionador/versoes", 0777) != 0) {
-            // Se ocorrer um erro ao criar o diretório, exibe uma mensagem de erro e encerra o programa
-            printf("Erro ao criar o diretório de versões.\n");
-            exit(1);
-        }
+    if (mkdir(".versionador") != 0) {
+        printf("Erro ao criar o diretório .versionador.\n");
+        exit(1);
     }
 
-    // Verifica se o diretório ".versionador/arquivos" existe
-    dir = opendir(".versionador/arquivos");
-    if (dir != NULL) {
-        closedir(dir); // Fecha o diretório se ele existe
-    } else {
-        // Se o diretório não existe, cria-o
-        if (mkdir(".versionador/arquivos", 0777) != 0) {
-            // Se ocorrer um erro ao criar o diretório, exibe uma mensagem de erro e encerra o programa
-            printf("Erro ao criar o diretório de arquivos marcados.\n");
-            exit(1);
-        }
+    if (mkdir(".versionador/versoes") != 0) {
+        printf("Erro ao criar o diretório de versões.\n");
+        exit(1);
+    }
+
+    if(mkdir(".versionador/conteudo") != 0) {
+        printf("Erro ao criar o diretório de conteúdo.\n");
+        exit(1);
     }
 }
