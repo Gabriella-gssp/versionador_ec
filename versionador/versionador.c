@@ -60,3 +60,42 @@ void iniciar() {
         exit(1);
     }
 }
+
+void adicionar_arquivo(const char* arquivo) {
+    char arquivoConteudo[256];
+    snprintf(arquivoConteudo, sizeof(arquivoConteudo), ".versionador/conteudo/%s", arquivo);
+
+    FILE* arquivoOriginal = fopen(arquivo, "r");
+    if (arquivoOriginal == NULL) {
+        printf("Erro ao abrir o arquivo %s.\n", arquivo);
+        return;
+    }
+
+    FILE* arquivoConteudoNovo = fopen(arquivoConteudo, "w");
+    if (arquivoConteudoNovo == NULL) {
+        printf("Erro ao criar o arquivo %s.\n", arquivoConteudo);
+        return;
+    }
+
+    char linha[256];
+    while (fgets(linha, sizeof(linha), arquivoOriginal) != NULL) {
+        fprintf(arquivoConteudoNovo, "%s", linha);
+    }
+
+    fclose(arquivoOriginal);
+    fclose(arquivoConteudoNovo);
+
+    char arquivoVersao[256];
+    snprintf(arquivoVersao, sizeof(arquivoVersao), ".versionador/versoes/%s", arquivo);
+
+    FILE* arquivoVersaoNovo = fopen(arquivoVersao, "w");
+    if (arquivoVersaoNovo == NULL) {
+        printf("Erro ao criar o arquivo %s.\n", arquivoVersao);
+        return;
+    }
+
+    fprintf(arquivoVersaoNovo, "%d\n", proximoIdentificador);
+    fprintf(arquivoVersaoNovo, "%s\n", arquivo);
+
+    fclose(arquivoVersaoNovo);
+}
