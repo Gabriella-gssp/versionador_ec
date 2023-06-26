@@ -38,6 +38,7 @@ char* desenfileirar(Fila* fila);
 void adicionar_arquivo(const char* arquivo);
 void criarSnapshot(Fila* arquivosMarcados);
 void listarSnapshots(int exibirConteudo);
+void mostrarSnapshot(int identificador);
 
 
 #endif 
